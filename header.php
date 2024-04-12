@@ -7,8 +7,8 @@ echo <<<_INIT
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='jquery.mobile-1.4.5.min.css'>
-    <link rel='stylesheet' href='styles.css' type='text/css'>
+    <link rel='stylesheet' href='css/jquery.mobile-1.4.5.min.css'>
+    <link rel='stylesheet' href='css/styles.css' type='text/css'>
     <script src='js/javascript.js'></script>
     <script src='js/jquery-2.2.4.min.js'></script>
     <script src='js/jquery.mobile-1.4.5.min.js'></script>
