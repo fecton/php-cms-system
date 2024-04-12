@@ -1,5 +1,8 @@
 <?php
   require_once 'header.php';
+  include_once 'src/Database.php';
+
+  $db = new Database();
 
 echo <<<_END
   <script>
@@ -21,28 +24,28 @@ echo <<<_END
         }
       )
     }
-  </script>  
+  </script>
 _END;
 
   $error = $user = $pass = "";
-  if (isset($_SESSION['user'])) destroySession();
+  if (isset($_SESSION['user'])) $db->destroySession();
 
   if (isset($_POST['user']))
   {
-    $user = sanitizeString($_POST['user']);
-    $pass = sanitizeString($_POST['pass']);
+    $user = $db->sanitizeString($_POST['user']);
+    $pass = $db->sanitizeString($_POST['pass']);
 
     if ($user == "" || $pass == "")
       $error = 'Not all fields were entered<br><br>';
     else
     {
-      $result = queryMysql("SELECT * FROM members WHERE user='$user'");
+      $result = $db->queryMysql("SELECT * FROM members WHERE user='$user'");
 
       if ($result->rowCount())
         $error = 'That username already exists<br><br>';
       else
       {
-        queryMysql("INSERT INTO members VALUES('$user', '$pass')");
+        $db->queryMysql("INSERT INTO members VALUES('$user', '$pass')");
         die('<h4>Account created</h4>Please Log in.</div></body></html>');
       }
     }

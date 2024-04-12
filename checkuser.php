@@ -1,10 +1,12 @@
 <?php
-  require_once 'functions.php';
+  include_once 'src/Database.php';
+
+  $db = new Database();
 
   if (isset($_POST['user']))
   {
-    $user   = sanitizeString($_POST['user']);
-    $result = queryMysql("SELECT * FROM members WHERE user='$user'");
+    $user   = $db->sanitizeString($_POST['user']);
+    $result = $db->queryMysql("SELECT * FROM members WHERE user='$user'");
 
     if ($result->rowCount())
       echo  "<span class='taken'>&nbsp;&#x2718; " .

@@ -1,20 +1,24 @@
 <?php
   require_once 'header.php';
+  include_once 'src/Database.php';
+
+  $db = new Database();
 
   if (!$loggedin) die("</div></body></html>");
 
+
   echo "<h3>Your Profile</h3>";
 
-  $result = queryMysql("SELECT * FROM profiles WHERE user='$user'");
+  $result = $db->queryMysql("SELECT * FROM profiles WHERE user='$user'");
 
   if (isset($_POST['text']))
   {
-    $text = sanitizeString($_POST['text']);
+    $text = $db->sanitizeString($_POST['text']);
     $text = preg_replace('/\s\s+/', ' ', $text);
 
     if ($result->rowCount())
-         queryMysql("UPDATE profiles SET text='$text' where user='$user'");
-    else queryMysql("INSERT INTO profiles VALUES('$user', '$text')");
+         $db->queryMysql("UPDATE profiles SET text='$text' where user='$user'");
+    else $db->queryMysql("INSERT INTO profiles VALUES('$user', '$text')");
   }
   else
   {
@@ -76,7 +80,7 @@
     }
   }
 
-  showProfile($user);
+  $db->showProfile($user);
 
 echo <<<_END
       <form data-ajax='false' method='post'

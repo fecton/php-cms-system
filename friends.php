@@ -1,9 +1,12 @@
 <?php
   require_once 'header.php';
+  include_once 'src/Database.php';
+
+  $db = new Database();
 
   if (!$loggedin) die("</div></body></html>");
 
-  if (isset($_GET['view'])) $view = sanitizeString($_GET['view']);
+  if (isset($_GET['view'])) $view = $db->sanitizeString($_GET['view']);
   else                      $view = $user;
 
   if ($view == $user)
@@ -25,7 +28,7 @@
   $followers = array();
   $following = array();
 
-  $result = queryMysql("SELECT * FROM friends WHERE user='$view'");
+  $result = $db->queryMysql("SELECT * FROM friends WHERE user='$view'");
 
   $j = 0;
 
@@ -34,7 +37,7 @@
     $followers[$j++] = $row['friend'];
   }
 
-  $result = queryMysql("SELECT * FROM friends WHERE friend='$view'");
+  $result = $db->queryMysql("SELECT * FROM friends WHERE friend='$view'");
 
   $j = 0;
 

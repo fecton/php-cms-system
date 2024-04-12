@@ -15,8 +15,6 @@ echo <<<_INIT
 
 _INIT;
 
-  require_once 'functions.php';
-
   $userstr = 'Welcome Guest';
   $randstr = substr(md5(rand()), 0, 7);
 
@@ -73,7 +71,7 @@ echo <<<_GUEST
             data-transition="slide" href='login.php?r=$randstr''>Log In</a>
         </div>
         <p class='info'>(You must be logged in to use this app)</p>
-        
+
 _GUEST;
   }
 ?>

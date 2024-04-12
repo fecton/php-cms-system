@@ -1,6 +1,7 @@
 <?php
   session_start();
   require_once 'header.php';
+  include_once 'src/Database.php';
 
   echo "<div class='center'>Welcome to Andrii's Campfire,";
 
