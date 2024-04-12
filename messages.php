@@ -1,20 +1,23 @@
 <?php
   require_once 'header.php';
+  include_once 'src/Database.php';
+
+  $db = new Database();
 
   if (!$loggedin) die("</div></body></html>");
 
-  if (isset($_GET['view'])) $view = sanitizeString($_GET['view']);
+  if (isset($_GET['view'])) $view = $db->sanitizeString($_GET['view']);
   else                      $view = $user;
 
   if (isset($_POST['text']))
   {
-    $text = sanitizeString($_POST['text']);
+    $text = $db->sanitizeString($_POST['text']);
 
     if ($text != "")
     {
-      $pm   = substr(sanitizeString($_POST['pm']),0,1);
+      $pm   = substr($db->sanitizeString($_POST['pm']),0,1);
       $time = time();
-      queryMysql("INSERT INTO messages VALUES(NULL, '$user',
+      $db->queryMysql("INSERT INTO messages VALUES(NULL, '$user',
         '$view', '$pm', $time, '$text')");
     }
   }
@@ -29,8 +32,8 @@
     }
 
     echo "<h3>$name1 Messages</h3>";
-    showProfile($view);
-    
+    $db->showProfile($view);
+
     echo <<<_END
       <form method='post' action='messages.php?view=$view&r=$randstr'>
         <fieldset data-role="controlgroup" data-type="horizontal">
@@ -49,12 +52,12 @@ _END;
 
     if (isset($_GET['erase']))
     {
-      $erase = sanitizeString($_GET['erase']);
-      queryMysql("DELETE FROM messages WHERE id='$erase' AND recip='$user'");
+      $erase = $db->sanitizeString($_GET['erase']);
+      $db->queryMysql("DELETE FROM messages WHERE id='$erase' AND recip='$user'");
     }
-    
+
     $query  = "SELECT * FROM messages WHERE recip='$view' ORDER BY time DESC";
-    $result = queryMysql($query);
+    $result = $db->queryMysql($query);
     $num    = $result->rowCount();
 
     while ($row = $result->fetch())

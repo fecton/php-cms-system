@@ -7,15 +7,13 @@ echo <<<_INIT
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='jquery.mobile-1.4.5.min.css'>
-    <link rel='stylesheet' href='styles.css' type='text/css'>
+    <link rel='stylesheet' href='css/jquery.mobile-1.4.5.min.css'>
+    <link rel='stylesheet' href='css/styles.css' type='text/css'>
     <script src='js/javascript.js'></script>
     <script src='js/jquery-2.2.4.min.js'></script>
     <script src='js/jquery.mobile-1.4.5.min.js'></script>
 
 _INIT;
-
-  require_once 'functions.php';
 
   $userstr = 'Welcome Guest';
   $randstr = substr(md5(rand()), 0, 7);
@@ -34,7 +32,7 @@ echo <<<_MAIN
   <body>
     <div data-role='page'>
       <div data-role='header'>
-        <div id='logo' class='center'><img id='logo_image' src='logo.png'>Andrii's Campfire</div>
+        <div id='logo' class='center'><img id='logo_image' src='images/logo.png'>Andrii's Campfire</div>
         <div class='username'>$userstr</div>
       </div>
       <div data-role='content'>
@@ -73,7 +71,7 @@ echo <<<_GUEST
             data-transition="slide" href='login.php?r=$randstr''>Log In</a>
         </div>
         <p class='info'>(You must be logged in to use this app)</p>
-        
+
 _GUEST;
   }
 ?>

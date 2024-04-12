@@ -1,17 +1,21 @@
 <?php
   require_once 'header.php';
+  include_once 'src/Database.php';
+
   $error = $user = $pass = "";
+
+  $db = new Database();
 
   if (isset($_POST['user']))
   {
-    $user = sanitizeString($_POST['user']);
-    $pass = sanitizeString($_POST['pass']);
+    $user = $db->sanitizeString($_POST['user']);
+    $pass = $db->sanitizeString($_POST['pass']);
 
     if ($user == "" || $pass == "")
       $error = 'Not all fields were entered';
     else
     {
-      $result = queryMySQL("SELECT user,pass FROM members
+      $result = $db->queryMySQL("SELECT user,pass FROM members
         WHERE user='$user' AND pass='$pass'");
 
       if ($result->rowCount() == 0)
