@@ -34,7 +34,7 @@ echo <<<_MAIN
   <body>
     <div data-role='page'>
       <div data-role='header'>
-        <div id='logo' class='center'><img id='logo_image' src='logo.png'>Andrii's Campfire</div>
+        <div id='logo' class='center'><img id='logo_image' src='images/logo.png'>Andrii's Campfire</div>
         <div class='username'>$userstr</div>
       </div>
       <div data-role='content'>
