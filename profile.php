@@ -41,8 +41,7 @@
     switch($_FILES['image']['type'])
     {
       case "image/gif":   $src = imagecreatefromgif($saveto); break;
-      case "image/jpeg":  // Both regular and progressive jpegs
-      case "image/pjpeg": $src = imagecreatefromjpeg($saveto); break;
+      case "image/jpeg":  $src = imagecreatefromjpeg($saveto); break;
       case "image/png":   $src = imagecreatefrompng($saveto); break;
       default:            $typeok = FALSE; break;
     }
