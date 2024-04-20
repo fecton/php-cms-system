@@ -4,7 +4,7 @@
     <title>Setting up database</title>
   </head>
   <body>
-    <h3>Setting up...</h3>
+    <h3>Creating tables</h3>
 
 <?php
   include_once 'src/Database.php';
@@ -37,6 +37,19 @@
               INDEX(user(6))');
 ?>
 
+    <br>...done.
+
+    <h3>Inserting admin user</h3>
+    <?php
+      $result = $db->queryMysql("SELECT * FROM members WHERE user='admin'");
+      if ($result->rowCount() == 0) {
+        $db->queryMysql("INSERT INTO members VALUES('admin', 'admin')");
+        $db->queryMysql("INSERT INTO profiles VALUES('admin', 'The admin user. Can do anything.')");
+        echo "Admin user inserted";
+      } else {
+        echo "Admin user already exists";
+      }
+    ?>
     <br>...done.
   </body>
 </html>

@@ -55,6 +55,8 @@ echo <<<_LOGGEDIN
             data-transition="slide" href='profile.php?r=$randstr'>Edit Profile</a>
           <a data-role='button' data-inline='true' data-icon='action'
             data-transition="slide" href='logout.php?r=$randstr'>Log out</a>
+          <a data-role='button' data-inline='true' data-icon='user'
+            data-transition="slide" href='admin.php'>Admin panel</a>
         </div>
 
 _LOGGEDIN;
