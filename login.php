@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Encryption.php';
 
   $error = $user = $pass = "";
 
@@ -15,8 +16,10 @@
       $error = 'Not all fields were entered';
     else
     {
+      $encrypted_password = Encryption::hash($pass);
+      echo "SELECT user,pass FROM members WHERE user='$user' AND pass='$encrypted_password'";
       $result = $db->queryMySQL("SELECT user,pass FROM members
-        WHERE user='$user' AND pass='$pass'");
+        WHERE user='$user' AND pass='$encrypted_password'");
 
       if ($result->rowCount() == 0)
       {

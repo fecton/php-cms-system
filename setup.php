@@ -12,7 +12,7 @@
 
   $db->createTable('members',
               'user VARCHAR(16),
-              pass VARCHAR(16),
+              pass VARCHAR(128),
               INDEX(user(6))');
 
   $db->createTable('messages',
@@ -43,7 +43,7 @@
     <?php
       $result = $db->queryMysql("SELECT * FROM members WHERE user='admin'");
       if ($result->rowCount() == 0) {
-        $db->queryMysql("INSERT INTO members VALUES('admin', 'admin')");
+        $db->queryMysql("INSERT INTO members VALUES('admin', '21232f297a57a5a743894a0e4a801fc3')");
         $db->queryMysql("INSERT INTO profiles VALUES('admin', 'The admin user. Can do anything.')");
         echo "Admin user inserted";
       } else {
