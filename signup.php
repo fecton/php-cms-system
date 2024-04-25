@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Encryption.php';
 
   $db = new Database();
 
@@ -26,7 +27,8 @@ _END;
         $error = 'That username already exists<br><br>';
       else
       {
-        $db->queryMysql("INSERT INTO members VALUES('$user', '$pass')");
+        $encrypted_password = Encryption::hash($pass);
+        $db->queryMysql("INSERT INTO members VALUES('$user', '$encrypted_password')");
         die('<h4>Account created</h4>Please Log in.</div></body></html>');
       }
     }
