@@ -17,7 +17,6 @@
     else
     {
       $encrypted_password = Encryption::hash($pass);
-      echo "SELECT user,pass FROM members WHERE user='$user' AND pass='$encrypted_password'";
       $result = $db->queryMySQL("SELECT user,pass FROM members
         WHERE user='$user' AND pass='$encrypted_password'");
 
