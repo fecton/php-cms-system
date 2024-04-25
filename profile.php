@@ -1,6 +1,6 @@
 <?php
   require_once 'header.php';
-  include_once 'src/Database.php';
+  require_once 'src/Profile.php';
 
   $db = new Database();
 
@@ -9,28 +9,12 @@
 
   echo "<h3>Your Profile</h3>";
 
-  $result = $db->queryMysql("SELECT * FROM profiles WHERE user='$user'");
+  $result = new Profile($user);
 
   if (isset($_POST['text']))
   {
-    $text = $db->sanitizeString($_POST['text']);
-    $text = preg_replace('/\s\s+/', ' ', $text);
-
-    if ($result->rowCount())
-         $db->queryMysql("UPDATE profiles SET text='$text' where user='$user'");
-    else $db->queryMysql("INSERT INTO profiles VALUES('$user', '$text')");
+    $result->set_text($_POST['text']);
   }
-  else
-  {
-    if ($result->rowCount())
-    {
-      $row  = $result->fetch();
-      $text = stripslashes($row['text']);
-    }
-    else $text = "";
-  }
-
-  $text = stripslashes(preg_replace('/\s\s+/', ' ', $text));
 
   if (isset($_FILES['image']['name']))
   {
