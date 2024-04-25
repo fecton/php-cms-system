@@ -1,7 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
-  include_once 'src/Encryption.php';
+  include_once 'src/Member.php';
 
   $db = new Database();
 
@@ -14,21 +14,22 @@ _END;
 
   if (isset($_POST['user']))
   {
-    $user = $db->sanitizeString($_POST['user']);
-    $pass = $db->sanitizeString($_POST['pass']);
+    $user = $_POST['user'];
+    $pass = $_POST['pass'];
 
     if ($user == "" || $pass == "")
       $error = 'Not all fields were entered<br><br>';
     else
     {
-      $result = $db->queryMysql("SELECT * FROM members WHERE user='$user'");
+      $member = new Member($user);
+      $result = $member->findRecordByUser();
 
       if ($result->rowCount())
         $error = 'That username already exists<br><br>';
       else
       {
-        $encrypted_password = Encryption::hash($pass);
-        $db->queryMysql("INSERT INTO members VALUES('$user', '$encrypted_password')");
+        $member->setPassword($pass);
+        $member->save();
         die('<h4>Account created</h4>Please Log in.</div></body></html>');
       }
     }

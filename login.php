@@ -1,24 +1,22 @@
 <?php
   require_once 'header.php';
-  include_once 'src/Database.php';
-  include_once 'src/Encryption.php';
+  require_once 'src/Member.php';
 
   $error = $user = $pass = "";
 
-  $db = new Database();
-
   if (isset($_POST['user']))
   {
-    $user = $db->sanitizeString($_POST['user']);
-    $pass = $db->sanitizeString($_POST['pass']);
+    $user = $_POST['user'];
+    $pass = $_POST['pass'];
 
     if ($user == "" || $pass == "")
       $error = 'Not all fields were entered';
     else
     {
-      $encrypted_password = Encryption::hash($pass);
-      $result = $db->queryMySQL("SELECT user,pass FROM members
-        WHERE user='$user' AND pass='$encrypted_password'");
+      $member = new Member($user);
+      $member->setPassword($pass);
+
+      $result = $member->findRecordByUserPassword();
 
       if ($result->rowCount() == 0)
       {
