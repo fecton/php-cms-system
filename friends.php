@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Friend.php';
 
   $db = new Database();
 
@@ -22,29 +23,9 @@
     $name3 = "$view is";
   }
 
-  // Uncomment this line if you wish the user�s profile to show here
-  // showProfile($view);
-
-  $followers = array();
-  $following = array();
-
-  $result = $db->queryMysql("SELECT * FROM friends WHERE user='$view'");
-
-  $j = 0;
-
-  while ($row = $result->fetch())
-  {
-    $followers[$j++] = $row['friend'];
-  }
-
-  $result = $db->queryMysql("SELECT * FROM friends WHERE friend='$view'");
-
-  $j = 0;
-
-  while ($row = $result->fetch())
-  {
-    $following[$j++] = $row['user'];
-  }
+  $friend = new Friend($view);
+  $followers = $friend->getFollowersByUser();
+  $following = $friend->getFollowingByUser();
 
   $mutual    = array_intersect($followers, $following);
   $followers = array_diff($followers, $mutual);
