@@ -1,6 +1,8 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Member.php';
+  include_once 'src/Friend.php';
 
   $db = new Database();
 
@@ -22,21 +24,20 @@
 
   if (isset($_GET['add']))
   {
-    $add = $db->sanitizeString($_GET['add']);
+    $friend = new Friend($_GET['add']);
+    $friend->setFriend($user);
 
-    $result = $db->queryMysql("SELECT * FROM friends
-      WHERE user='$add' AND friend='$user'");
-    if (!$result->rowCount)
-      $db->queryMysql("INSERT INTO friends VALUES ('$add', '$user')");
+    $friend->insertIfExists();
   }
   elseif (isset($_GET['remove']))
   {
-    $remove = $db->sanitizeString($_GET['remove']);
-    $db->queryMysql("DELETE FROM friends
-      WHERE user='$remove' AND friend='$user'");
+    $friend = new Friend($_GET['remove']);
+    $friend->setFriend($user);
+
+    $friend->removeFriendship();
   }
 
-  $result = $db->queryMysql("SELECT user FROM members ORDER BY user");
+  $result = Friend::showAll();
   $num    = $result->rowCount();
 
   while ($row = $result->fetch())
@@ -47,12 +48,10 @@
       $row['user'] . "&$randstr'>" . $row['user'] . "</a>";
     $follow = "follow";
 
-    $result1 = $db->queryMysql("SELECT * FROM friends WHERE
-      user='" . $row['user'] . "' AND friend='$user'");
+    $result1 = Friend::getFollowingStatus($row['user'], $user);
     $t1      = $result1->rowCount();
 
-    $result1 = $db->queryMysql("SELECT * FROM friends WHERE
-      user='$user' AND friend='" . $row['user'] . "'");
+    $result1 = Friend::getFollowerStatus($row['user'], $user);
     $t2      = $result1->rowCount();
 
     if (($t1 + $t2) > 1) echo " &harr; is a mutual friend";
