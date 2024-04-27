@@ -30,14 +30,13 @@
   echo "<hr>";
   $result = $db->queryMysql("SELECT * FROM members");
   $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-  echo "<div class='center'><h2>Edit/Delete users (TABLE 'members')</h2>";
+  echo "<div class='center'><h2>Delete users (TABLE 'members')</h2>";
   echo "<table align='center'>";
   echo "<tr><th>User</th><th>Password</th><th colspan=2>Actions</th></tr>";
   foreach ($rows as $row) {
     echo "<tr>";
     echo "<td><a href='members.php?view=" . $row['user'] . "'>" . $row['user'] . "</a></td>";
     echo "<td>" . $row['pass'] . "</td>";
-    echo "<td><a href='edit.php?user=" . $row['user'] . "'>Edit</a></td>";
     echo "<td><a href='delete.php?user=" . $row['user'] . "'>Delete</a></td>";
     echo "</tr>";
   }
@@ -49,7 +48,7 @@
   # 2. Query which shows all messages and actions to done with them
   $result = $db->queryMysql("SELECT * FROM messages");
   $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-  echo "<div class='center'><h2>Edit/Delete messages (TABLE 'messages')</h2>";
+  echo "<div class='center'><h2>Delete messages (TABLE 'messages')</h2>";
   echo "<table align='center'>";
   echo "<tr><th>ID</th><th>Sender</th><th>Receiver</th><th>Message</th><th colspan=2>Actions</th></tr>";
   foreach ($rows as $row) {
@@ -63,6 +62,44 @@
     echo "</tr>";
   }
   echo "</table></div>";
+  echo "";
+  echo "<hr>";
+  echo "";
+
+  # 3. Query which shows all friends relationships between users
+  $result = $db->queryMysql("SELECT * FROM friends");
+  $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+  echo "<div class='center'><h2>Delete friends (TABLE 'friends')</h2>";
+  echo "<table align='center'>";
+  echo "<tr><th>User</th><th>Friend</th><th colspan=2>Actions</th></tr>";
+  foreach ($rows as $row) {
+    echo "<tr>";
+    echo "<td>" . $row['user'] . "</td>";
+    echo "<td>" . $row['friend'] . "</td>";
+    echo "<td><a href='delete.php?friend=" . $row['friend'] . "'>Delete</a></td>";
+    echo "</tr>";
+  }
+  echo "</table></div>";
+  echo "";
+  echo "<hr>";
+  echo "";
+
+  # 4. Query which shows all profiles
+  $result = $db->queryMysql("SELECT * FROM profiles");
+  $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+  echo "<div class='center'><h2>Delete profiles (TABLE 'profiles')</h2>";
+  echo "<table align='center'>";
+  echo "<tr><th>User</th><th>Text</th><th colspan=2>Actions</th></tr>";
+  foreach ($rows as $row) {
+    echo "<tr>";
+    echo "<td>" . $row['user'] . "</td>";
+    echo "<td>" . $row['text'] . "</td>";
+    echo "<td><a href='delete.php?profile=" . $row['user'] . "'>Delete</a></td>";
+    echo "</tr>";
+  }
+  echo "</table></div>";
+  echo "";
+  echo "<hr>";
   echo "";
 
 ?>
