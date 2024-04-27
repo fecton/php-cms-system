@@ -1,12 +1,12 @@
 <?php
-  include_once 'src/Database.php';
+  include_once 'src/Member.php';
 
   $db = new Database();
 
   if (isset($_POST['user']))
   {
-    $user   = $db->sanitizeString($_POST['user']);
-    $result = $db->queryMysql("SELECT * FROM members WHERE user='$user'");
+    $member = new Member($_POST['user']);
+    $result = $member->findRecordByUser();
 
     if ($result->rowCount())
       echo  "<span class='taken'>&nbsp;&#x2718; " .
