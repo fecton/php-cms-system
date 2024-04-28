@@ -1,0 +1,8 @@
+classDiagram
+    class Profile {
+        +user : string
+        +text : string
+        -table_name : string
+        +__construct(user : string)
+        +set_text(text : string)
+    }

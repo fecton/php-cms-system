@@ -1,0 +1,12 @@
+classDiagram
+    class Member {
+        +user : string
+        -password : string
+        -table_name : string
+        +__construct(user : string)
+        +getPassword() : string
+        +setPassword(password : string)
+        +findRecordByUserPassword() : array
+        +findRecordByUser() : array
+        +save()
+    }

@@ -1,0 +1,4 @@
+classDiagram
+    class Encryption {
+        +hash(password : string) : string
+    }
