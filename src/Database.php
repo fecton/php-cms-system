@@ -75,12 +75,16 @@ class Database {
 
         $result = $pdo->query("SELECT * FROM profiles WHERE user='$user'");
 
-        while ($row = $result->fetch())
-        {
-            die(stripslashes($row['text']) . "<br style='clear:left;'><br>");
+        if($result->rowCount()) {
+            while ($row = $result->fetch())
+            {
+                stripslashes($row['text']) . "<br style='clear:left;'><br>";
+            }
+        }
+        else {
+            echo "<p>Nothing to see here, yet</p><br>";
         }
 
-        echo "<p>Nothing to see here, yet</p><br>";
     }
 
 }

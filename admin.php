@@ -10,6 +10,39 @@
       die("You don't have admin priviliges, aborting...</div></body></html>");
   }
 
+  if(isset($_GET['control'])) {
+    $control = $_GET['control'];
+
+    switch($control) {
+      case 'members':
+        if(isset($_GET['user'])) {
+          $user = $_GET['user'];
+          $db->queryMysql("DELETE FROM members WHERE user = '$user'");
+        }
+        break;
+      case 'messages':
+        if(isset($_GET['id'])) {
+          $id = $_GET['id'];
+          $db->queryMysql("DELETE FROM messages WHERE id = '$id'");
+        }
+        break;
+      case 'friends':
+        if(isset($_GET['user']) && isset($_GET['friend'])) {
+          $user = $_GET['user'];
+          $friend = $_GET['friend'];
+          $db->queryMysql("DELETE FROM friends WHERE user = '$user' AND friend = '$friend'");
+        }
+        break;
+      case 'profiles':
+        if(isset($_GET['user']) && isset($_GET['text'])) {
+          $user = $_GET['user'];
+          $text = $_GET['text'];
+          $db->queryMysql("DELETE FROM profiles WHERE user = '$user' AND text = '$text'");
+        }
+        break;
+    }
+  }
+
   if (!$loggedin) die("</div></body></html>");
   else
   {
@@ -37,7 +70,7 @@
     echo "<tr>";
     echo "<td><a href='members.php?view=" . $row['user'] . "'>" . $row['user'] . "</a></td>";
     echo "<td>" . $row['pass'] . "</td>";
-    echo "<td><a href='delete.php?user=" . $row['user'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=members&user=" . $row['user'] . "&pass=" . $row['pass'] . "'>Delete</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
@@ -57,8 +90,7 @@
     echo "<td>" . $row['auth'] . "</td>";
     echo "<td>" . $row['recip'] . "</td>";
     echo "<td>" . $row['message'] . "</td>";
-    echo "<td><a class='edit' href='edit.php?message=" . $row['message'] . "'>Edit</a></td>";
-    echo "<td><a class='delete' href='delete.php?message=" . $row['message'] . "'>Delete</a></td>";
+    echo "<td><a class='delete' href='admin.php?control=messages&id=" . $row['id'] . "'>Delete</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
@@ -76,7 +108,7 @@
     echo "<tr>";
     echo "<td>" . $row['user'] . "</td>";
     echo "<td>" . $row['friend'] . "</td>";
-    echo "<td><a href='delete.php?friend=" . $row['friend'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=friends&user=" . $row['user'] . "&friend=" . $row['friend'] . "'>Delete</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
@@ -94,7 +126,7 @@
     echo "<tr>";
     echo "<td>" . $row['user'] . "</td>";
     echo "<td>" . $row['text'] . "</td>";
-    echo "<td><a href='delete.php?profile=" . $row['user'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=profiles&user=" . $row['user'] . "&text=" . $row['text'] . "'>Delete</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
