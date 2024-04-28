@@ -1,0 +1,17 @@
+classDiagram
+    class Friend {
+        -friend : string
+        -table_name : string
+        +user : string
+        +__construct(user : string)
+        +setFriend(friend : string)
+        +getFollowersByUser() : array
+        +getFollowingByUser() : array
+        +insertIfExists()
+        +removeFriendship()
+        +showAll() : array
+        +getFollowingStatus(user : string, friend : string) : array
+        +getFollowerStatus(user : string, friend : string) : array
+        -parseArray(to_parse : array) : array
+        -getRecord(user : string, friend : string) : array
+    }

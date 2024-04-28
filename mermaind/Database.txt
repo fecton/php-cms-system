@@ -1,0 +1,16 @@
+classDiagram
+    class Database {
+        -host : string
+        -data : string
+        -user : string
+        -pass : string
+        -chrs : string
+        -attr : string
+        -opts : array
+        +__construct()
+        +createTable(name : string, query : string)
+        +queryMysql(query : string)
+        +destroySession()
+        +sanitizeString(var : string)
+        +showProfile(user : string)
+    }
