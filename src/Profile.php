@@ -13,7 +13,7 @@ class Profile {
         global $database;
         $this->user = $user;
 
-        $result = $database->queryMysql("SELECT * FROM $this->table_name WHERE user='$user'")->fetch();
+        $result = $database->queryMysql("SELECT * FROM $this->table_name WHERE user='$this->user'");
 
         if (is_array($result) && isset($result['text'])) {
             $this->text = $result['text'];
@@ -27,10 +27,10 @@ class Profile {
         $text = $database->sanitizeString($text);
         $this->text = preg_replace('/\s\s+/', ' ', $text);
 
-        $result = $database->queryMysql("SELECT * FROM $this->table_name WHERE user='$this->user' AND text='$this->text'")->fetch();
+        $result = $database->queryMysql("SELECT * FROM $this->table_name WHERE user='$this->user' AND text='$this->text'");
 
         if ($result->rowCount()) {
-            $database->queryMysql("UPDATE $this->table_name SET text='$text' where user='$this->user'");
+            $database->queryMysql("UPDATE $this->table_name SET text='$this->text' where user='$this->user'");
         } else {
             $database->queryMysql("INSERT INTO $this->table_name VALUES('$this->user', '$text')");
         }
@@ -40,17 +40,3 @@ class Profile {
 
 
 ?>
-
-<?php
-$DEBUG_FLAG = false;
-
-if($DEBUG_FLAG) {
-    $profile = new Profile("123");
-
-    echo $profile->user;
-    echo "<br>";
-    echo $profile->text;
-}
-?>
-
-

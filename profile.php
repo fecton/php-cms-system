@@ -69,7 +69,7 @@ echo <<<_END
       <form data-ajax='false' method='post'
         action='profile.php?r=$randstr' enctype='multipart/form-data'>
       <h3>Enter or edit your details and/or upload an image</h3>
-      <textarea name='text'>$text</textarea><br>
+      <textarea name='text'>$result->text</textarea><br>
       Image: <input type='file' name='image' size='14'>
       <input type='submit' value='Save Profile'>
       </form>
