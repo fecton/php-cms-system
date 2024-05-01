@@ -16,8 +16,22 @@
 
     switch($control) {
       case 'members':
-        if(isset($_GET['db'])) {
-          if($_GET['db'] == 'add' && isset($_GET['user_to_add']) && isset($_GET['pass_to_add'])) {
+        if(isset($_GET['action'])) {
+          if($_GET['action'] == 'reset') {
+            if(isset($_GET['user'])) {
+              $user = $_GET['user'];
+              $member = new Member($user);
+              $pass = substr(md5(rand()), 0, 6);
+
+              $member->setPassword($pass);
+              $hash_password = $member->getPassword();
+              $db->queryMysql("UPDATE members SET pass = '$hash_password' WHERE user = '$user'");
+
+              echo "New password for '$user' is '$pass'";
+            }
+          }
+
+          if($_GET['action'] == 'add' && isset($_GET['user_to_add']) && isset($_GET['pass_to_add'])) {
             $member = new Member($_GET['user_to_add']);
             $member->setPassword($_GET['pass_to_add']);
             $password = $member->getPassword();
@@ -30,10 +44,13 @@
           }
         }
 
-        if(isset($_GET['user'])) {
-          $user = $_GET['user'];
-          $db->queryMysql("DELETE FROM members WHERE user = '$user'");
+        if($_GET['action'] == 'delete') {
+          if(isset($_GET['user'])) {
+            $user = $_GET['user'];
+            $db->queryMysql("DELETE FROM members WHERE user = '$user'");
+          }
         }
+
         break;
       case 'messages':
         if(isset($_GET['id'])) {
@@ -85,14 +102,15 @@
     echo "<tr>";
     echo "<td><a href='members.php?view=" . $row['user'] . "'>" . $row['user'] . "</a></td>";
     echo "<td>" . $row['pass'] . "</td>";
-    echo "<td><a href='admin.php?control=members&user=" . $row['user'] . "&pass=" . $row['pass'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=members&action=delete&user=" . $row['user'] . "&pass=" . $row['pass'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=members&action=reset&user=" . $row['user'] . "'>Reset Password</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
   echo "";
 
   echo <<<_ADD_FORM
-    <form method='get' action='admin.php?control=members&db=add'>
+    <form method='get' action='admin.php?control=members&action=add'>
       <div data-role='fieldcontain'>
         <label></label>
         Enter username and password
