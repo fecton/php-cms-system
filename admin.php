@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Member.php';
 
   echo "<link rel='stylesheet' href='css/admin.css' type='text/css'>";
 
@@ -15,10 +16,41 @@
 
     switch($control) {
       case 'members':
-        if(isset($_GET['user'])) {
-          $user = $_GET['user'];
-          $db->queryMysql("DELETE FROM members WHERE user = '$user'");
+        if(isset($_GET['action'])) {
+          if($_GET['action'] == 'reset') {
+            if(isset($_GET['user'])) {
+              $user = $_GET['user'];
+              $member = new Member($user);
+              $pass = substr(md5(rand()), 0, 6);
+
+              $member->setPassword($pass);
+              $hash_password = $member->getPassword();
+              $db->queryMysql("UPDATE members SET pass = '$hash_password' WHERE user = '$user'");
+
+              echo "New password for '$user' is '$pass'";
+            }
+          }
+
+          if($_GET['action'] == 'add' && isset($_GET['user_to_add']) && isset($_GET['pass_to_add'])) {
+            $member = new Member($_GET['user_to_add']);
+            $member->setPassword($_GET['pass_to_add']);
+            $password = $member->getPassword();
+
+            $result = $member->findRecordByUserPassword();
+
+            if(!$result->rowCount()) {
+              $db->queryMysql("INSERT INTO members VALUES('$member->user', '$password')");
+            }
+          }
         }
+
+        if($_GET['action'] == 'delete') {
+          if(isset($_GET['user'])) {
+            $user = $_GET['user'];
+            $db->queryMysql("DELETE FROM members WHERE user = '$user'");
+          }
+        }
+
         break;
       case 'messages':
         if(isset($_GET['id'])) {
@@ -70,11 +102,33 @@
     echo "<tr>";
     echo "<td><a href='members.php?view=" . $row['user'] . "'>" . $row['user'] . "</a></td>";
     echo "<td>" . $row['pass'] . "</td>";
-    echo "<td><a href='admin.php?control=members&user=" . $row['user'] . "&pass=" . $row['pass'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=members&action=delete&user=" . $row['user'] . "&pass=" . $row['pass'] . "'>Delete</a></td>";
+    echo "<td><a href='admin.php?control=members&action=reset&user=" . $row['user'] . "'>Reset Password</a></td>";
     echo "</tr>";
   }
   echo "</table></div>";
   echo "";
+
+  echo <<<_ADD_FORM
+    <form method='get' action='admin.php?control=members&action=add'>
+      <div data-role='fieldcontain'>
+        <label></label>
+        Enter username and password
+      </div>
+      <div data-role='fieldcontain'>
+        <label>Username</label>
+        <input type='text' maxlength='16' name='user_to_add' value=''>
+      </div>
+      <div data-role='fieldcontain'>
+        <label>Password</label>
+        <input type='password' maxlength='16' name='pass_to_add' value=''>
+      </div>
+      <div data-role='fieldcontain'>
+        <label></label>
+        <input data-transition='slide' type='submit' value='Add record'>
+      </div>
+    </form>
+  _ADD_FORM;
   echo "<hr>";
   echo "";
 
