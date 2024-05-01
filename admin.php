@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   include_once 'src/Database.php';
+  include_once 'src/Member.php';
 
   echo "<link rel='stylesheet' href='css/admin.css' type='text/css'>";
 
@@ -15,6 +16,20 @@
 
     switch($control) {
       case 'members':
+        if(isset($_GET['db'])) {
+          if($_GET['db'] == 'add' && isset($_GET['user_to_add']) && isset($_GET['pass_to_add'])) {
+            $member = new Member($_GET['user_to_add']);
+            $member->setPassword($_GET['pass_to_add']);
+            $password = $member->getPassword();
+
+            $result = $member->findRecordByUserPassword();
+
+            if(!$result->rowCount()) {
+              $db->queryMysql("INSERT INTO members VALUES('$member->user', '$password')");
+            }
+          }
+        }
+
         if(isset($_GET['user'])) {
           $user = $_GET['user'];
           $db->queryMysql("DELETE FROM members WHERE user = '$user'");
@@ -75,6 +90,27 @@
   }
   echo "</table></div>";
   echo "";
+
+  echo <<<_ADD_FORM
+    <form method='get' action='admin.php?control=members&db=add'>
+      <div data-role='fieldcontain'>
+        <label></label>
+        Enter username and password
+      </div>
+      <div data-role='fieldcontain'>
+        <label>Username</label>
+        <input type='text' maxlength='16' name='user_to_add' value=''>
+      </div>
+      <div data-role='fieldcontain'>
+        <label>Password</label>
+        <input type='password' maxlength='16' name='pass_to_add' value=''>
+      </div>
+      <div data-role='fieldcontain'>
+        <label></label>
+        <input data-transition='slide' type='submit' value='Add record'>
+      </div>
+    </form>
+  _ADD_FORM;
   echo "<hr>";
   echo "";
 
