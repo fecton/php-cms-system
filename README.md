@@ -49,7 +49,7 @@ Not AI generated!
     * **1.5.1. [Registration Capability](#registration-capability)**
     * **1.5.2. [Login Capability](#login-capability)**
     * **1.5.3. [Members Section](#ability-to-view-and-interact-with-website-users-in-members-section)**
-    * **1.5.4. [Friends Section](#614-display-of-established-connections-between-users-in-friends-section)**
+    * **1.5.4. [Friends Section](#display-of-established-connections-between-users-in-friends-section)**
     * **1.5.5. [Messages Section](#display-of-published-messages-in-messages-section)**
     * **1.5.6. [Admin Panel Section](#display-of-possible-administrator-actions-in-admin-panel-section)**
 
@@ -308,7 +308,7 @@ Responsible for the user profile.
 
 ---
 
-**6.1.4. Display of Established Connections Between Users in “Friends” Section**
+## Display of Established Connections Between Users in “Friends” Section
 
 | № | Situation                                                                           | Input Data               | Output Data                                      | Test Passed |
 | - | ----------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------ | ----------- |
