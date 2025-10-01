@@ -62,6 +62,11 @@ Not AI generated!
 
 
 
+# Quick start
+Use XAMPP for hosting: https://www.apachefriends.org/download.html
+
+The configuration is default, enable MySQL and PHP server.
+Place the files to `htdocs` and go to localhost.
 
 # Intro
 
@@ -201,6 +206,9 @@ Admin page:
 * The `profiles` table has one relationship with the `members` table:
   * `user` links each user profile to the corresponding user.
 
+
+![](./README-assets/database-relationships.png)
+
 ### General Overview
 
 * This database structure is suitable for a small social network.
@@ -339,4 +347,4 @@ Responsible for the user profile.
 
 ---
 
-alytvynenko.net
+https://alytvynenko.net
